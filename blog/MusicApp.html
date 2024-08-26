@@ -140,5 +140,60 @@ CMD ["python", "app.py"]</code></pre>
         </li>
     </ol>
 
+    <h2>Step 2: Initializing a GitHub Repository for Version Control</h2>
+
+    <p>Version control is essential for managing changes to your codebase, especially when collaborating with others. GitHub is one of the most popular platforms for hosting Git repositories.</p>
+
+    <h3>2.1. Setting Up Git</h3>
+
+    <p>If Git is not already installed on your machine, you can install it by following these instructions:</p>
+
+    <ul>
+        <li><strong>For Windows and macOS:</strong>
+            <ol>
+                <li>Download Git from the <a href="https://git-scm.com/downloads" target="_blank">official Git website</a>.</li>
+                <li>Run the installer and follow the on-screen instructions.</li>
+            </ol>
+        </li>
+        <li><strong>For Linux:</strong>
+            <pre><code>sudo apt-get install git</code></pre>
+        </li>
+    </ul>
+
+    <h3>2.2. Initializing a Local Git Repository</h3>
+
+    <ol>
+        <li><strong>Initialize Git:</strong>
+            <pre><code>git init</code></pre>
+        </li>
+        <li><strong>Create a <code>.gitignore</code> File:</strong>
+            <pre><code>touch .gitignore</code></pre>
+            <p>Inside <code>.gitignore</code>, add the following lines:</p>
+            <pre><code>__pycache__/
+*.pyc
+*.pyo
+.env
+.vscode/
+.DS_Store</code></pre>
+        </li>
+        <li><strong>Commit Initial Files:</strong>
+            <pre><code>git add .
+git commit -m "Initial commit with Dockerfile and requirements.txt"</code></pre>
+        </li>
+    </ol>
+
+    <h3>2.3. Creating a GitHub Repository</h3>
+
+    <ol>
+        <li><strong>Create a Repository on GitHub:</strong>
+            <p>Go to <a href="https://github.com" target="_blank">GitHub</a> and log in to your account. Click the "+" icon in the top right corner and select "New repository." Name your repository (e.g., <code>music_analysis</code>), add a description, and click "Create repository."</p>
+        </li>
+        <li><strong>Push Local Repository to GitHub:</strong>
+            <pre><code>git remote add origin https://github.com/yourusername/music_analysis.git
+git branch -M main
+git push -u origin main</code></pre>
+        </li>
+    </ol>
+
 </body>
 </html>
