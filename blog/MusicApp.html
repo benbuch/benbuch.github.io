@@ -1,0 +1,144 @@
+ <!DOCTYPE html>
+  <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting Up the Development Environment for a Music Analysis Web Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 25px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Setting Up the Development Environment for a Music Analysis Web Application</h1>
+
+    <p>In this guide, we will build a web application that allows users to log in with their Spotify accounts and receive personalized music recommendations. We'll start by setting up our development environment using Docker and version control with GitHub. This ensures that our application is portable and easy to deploy across different environments.</p>
+
+    <h2>Step 1: Setting Up the Development Environment with Docker</h2>
+
+    <p>Docker allows us to create isolated environments for our applications. This is particularly useful for ensuring that our application runs consistently across different machines.</p>
+
+    <h3>1.1. Installing Docker</h3>
+
+    <p>Before we begin, make sure you have Docker installed on your machine. If you haven't installed Docker yet, follow these instructions:</p>
+
+    <ul>
+        <li><strong>For Windows and macOS:</strong>
+            <ol>
+                <li>Download Docker Desktop from the <a href="https://www.docker.com/products/docker-desktop" target="_blank">official Docker website</a>.</li>
+                <li>Run the installer and follow the on-screen instructions.</li>
+                <li>After installation, Docker should be running in your system tray.</li>
+            </ol>
+        </li>
+        <li><strong>For Linux:</strong>
+            <pre><code>sudo apt-get update
+sudo apt-get install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker</code></pre>
+        </li>
+    </ul>
+
+    <h3>1.2. Creating a Dockerfile</h3>
+
+    <p>The first step in Dockerizing our application is to create a <code>Dockerfile</code>. This file contains the instructions Docker will use to build our application environment.</p>
+
+    <ol>
+        <li><strong>Create a new directory for your project:</strong>
+            <pre><code>mkdir music_analysis
+cd music_analysis</code></pre>
+        </li>
+        <li><strong>Create a <code>Dockerfile</code>:</strong>
+            <pre><code>touch Dockerfile</code></pre>
+        </li>
+        <li><strong>Edit the <code>Dockerfile</code>:</strong>
+            <pre><code># Use the official Python image from the Docker Hub
+FROM python:3.11-slim
+
+# Set environment variables to prevent Python from buffering stdout/stderr
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY requirements.txt /app/
+
+# Install any necessary dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code into the container
+COPY . /app/
+
+# Define the command to run the application
+CMD ["python", "app.py"]</code></pre>
+        </li>
+    </ol>
+
+    <h3>1.3. Creating the <code>requirements.txt</code> File</h3>
+
+    <p>The <code>requirements.txt</code> file lists all the Python dependencies our application needs. We’ll keep it simple for now and add more dependencies later as needed.</p>
+
+    <ol>
+        <li><strong>Create <code>requirements.txt</code>:</strong>
+            <pre><code>touch requirements.txt</code></pre>
+        </li>
+        <li><strong>Add Flask to <code>requirements.txt</code>:</strong>
+            <pre><code>Flask==2.3.2</code></pre>
+        </li>
+    </ol>
+
+</body>
+</html>
