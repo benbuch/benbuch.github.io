@@ -1,0 +1,221 @@
+ <!DOCTYPE html>
+  <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting Up the Development Environment for a Music Analysis Web Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 25px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Setting Up the Development Environment for a Music Analysis Web Application</h1>
+
+    <p>In this guide, we will build a web application that allows users to log in with their Spotify accounts and receive personalized music recommendations. We'll start by setting up our development environment using Docker and version control with GitHub. This ensures that our application is portable and easy to deploy across different environments.</p>
+
+    <h2>Step 1: Setting Up the Development Environment with Docker</h2>
+
+    <p>Docker allows us to create isolated environments for our applications. This is particularly useful for ensuring that our application runs consistently across different machines.</p>
+
+    <h3>1.1. Installing Docker</h3>
+
+    <p>Before we begin, make sure you have Docker installed on your machine. If you haven't installed Docker yet, follow these instructions:</p>
+
+    <ul>
+        <li><strong>For Windows and macOS:</strong>
+            <ol>
+                <li>Download Docker Desktop from the <a href="https://www.docker.com/products/docker-desktop" target="_blank">official Docker website</a>.</li>
+                <li>Run the installer and follow the on-screen instructions.</li>
+                <li>After installation, Docker should be running in your system tray.</li>
+            </ol>
+        </li>
+        <li><strong>For Linux:</strong>
+            <pre><code>sudo apt-get update
+sudo apt-get install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker</code></pre>
+        </li>
+    </ul>
+
+    <h3>1.2. Creating a Dockerfile</h3>
+
+    <p>The first step in Dockerizing our application is to create a <code>Dockerfile</code>. This file contains the instructions Docker will use to build our application environment.</p>
+
+    <ol>
+        <li><strong>Create a new directory for your project:</strong>
+            <pre><code>mkdir music_analysis
+cd music_analysis</code></pre>
+        </li>
+        <li><strong>Create a <code>Dockerfile</code>:</strong>
+            <pre><code>touch Dockerfile</code></pre>
+        </li>
+        <li><strong>Edit the <code>Dockerfile</code>:</strong>
+            <pre><code># Use the official Python image from the Docker Hub
+FROM python:3.11-slim
+
+# Set environment variables to prevent Python from buffering stdout/stderr
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY requirements.txt /app/
+
+# Install any necessary dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code into the container
+COPY . /app/
+
+# Define the command to run the application
+CMD ["python", "app.py"]</code></pre>
+        </li>
+    </ol>
+
+    <h3>1.3. Creating the <code>requirements.txt</code> File</h3>
+
+    <p>The <code>requirements.txt</code> file lists all the Python dependencies our application needs. We’ll keep it simple for now and add more dependencies later as needed.</p>
+
+    <ol>
+        <li><strong>Create <code>requirements.txt</code>:</strong>
+            <pre><code>touch requirements.txt</code></pre>
+        </li>
+        <li><strong>Add Flask to <code>requirements.txt</code>:</strong>
+            <pre><code>Flask==2.3.2</code></pre>
+        </li>
+    </ol>
+
+    <h2>Step 2: Initializing a GitHub Repository for Version Control</h2>
+
+    <p>Version control is essential for managing changes to your codebase, especially when collaborating with others. GitHub is one of the most popular platforms for hosting Git repositories.</p>
+
+    <h3>2.1. Setting Up Git</h3>
+
+    <p>If Git is not already installed on your machine, you can install it by following these instructions:</p>
+
+    <ul>
+        <li><strong>For Windows and macOS:</strong>
+            <ol>
+                <li>Download Git from the <a href="https://git-scm.com/downloads" target="_blank">official Git website</a>.</li>
+                <li>Run the installer and follow the on-screen instructions.</li>
+            </ol>
+        </li>
+        <li><strong>For Linux:</strong>
+            <pre><code>sudo apt-get install git</code></pre>
+        </li>
+    </ul>
+
+    <h3>2.2. Initializing a Local Git Repository</h3>
+
+    <ol>
+        <li><strong>Initialize Git:</strong>
+            <pre><code>git init</code></pre>
+        </li>
+        <li><strong>Create a <code>.gitignore</code> File:</strong>
+            <pre><code>touch .gitignore</code></pre>
+            <p>Inside <code>.gitignore</code>, add the following lines:</p>
+            <pre><code>__pycache__/
+*.pyc
+*.pyo
+.env
+.vscode/
+.DS_Store</code></pre>
+        </li>
+        <li><strong>Commit Initial Files:</strong>
+            <pre><code>git add .
+git commit -m "Initial commit with Dockerfile and requirements.txt"</code></pre>
+        </li>
+    </ol>
+
+    <h3>2.3. Creating a GitHub Repository</h3>
+
+    <ol>
+        <li><strong>Create a Repository on GitHub:</strong>
+            <p>Go to <a href="https://github.com" target="_blank">GitHub</a> and log in to your account. Click the "+" icon in the top right corner and select "New repository." Name your repository (e.g., <code>music_analysis</code>), add a description, and click "Create repository."</p>
+        </li>
+        <li><strong>Push Local Repository to GitHub:</strong>
+            <pre><code>git remote add origin https://github.com/yourusername/music_analysis.git
+git branch -M main
+git push -u origin main</code></pre>
+        </li>
+    </ol>
+
+    <h2>Step 3: Building and Running the Docker Container</h2>
+
+    <p>Now that our Dockerfile is set up and our code is under version control, let's build and run the Docker container.</p>
+
+    <ol>
+        <li><strong>Build the Docker Image:</strong>
+            <pre><code>docker build -t music_analysis .</code></pre>
+            <p><code>-t music_analysis</code> tags the image with the name <code>music_analysis</code>.</p>
+        </li>
+        <li><strong>Run the Docker Container:</strong>
+            <pre><code>docker run -d -p 5000:5000 music_analysis</code></pre>
+            <p><code>-d</code> runs the container in detached mode (in the background). <code>-p 5000:5000</code> maps port 5000 on your host to port 5000 in the container, which is where Flask will serve the application.</p>
+        </li>
+        <li><strong>Verify the Setup:</strong>
+            <p>Open your browser and navigate to <a href="http://localhost:5000" target="_blank">http://localhost:5000</a>. If everything is set up correctly, you should see a "Hello, World!" message or whatever content you plan to display in the initial Flask app.</p>
+        </li>
+    </ol>
+
+    <p>With this setup, you’ve created a Dockerized environment for your web application and initialized a GitHub repository for version control. In the next steps, we'll build out the Flask application, implement user authentication with Spotify, and start developing the music recommendation features.</p>
+
+    <p>This concludes the first part of our tutorial. Stay tuned for the next steps!</p>
+
+</body>
+</html>
